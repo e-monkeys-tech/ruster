@@ -12,14 +12,10 @@ import (
 //     "fmt"
 //     "os/exec"
      "os"
-    "time"
+    //"time"
 )
 
 func main() {
-    C.set_log_level_trace();
-    C.set_log_level_debug();
-    C.set_log_level_info();
-    C.set_log_level_warn();
 // 	cmd := exec.Command("ls", "-lah")
 // 	cmd.Stdout = os.Stdout
 // 	cmd.Stderr = os.Stderr
@@ -47,21 +43,27 @@ func main() {
 //     	C.CString("true"),
 //     );
     os.Getenv("PGPASSWORD")
-    C.pg_dump_database(
+    err := func() error {
+            C.pg_dump_database(
     		C.CString("localhost"),
     		C.CString("5432"),
     		C.CString("postgres"),
     		C.CString("postgres"),
     		C.CString("pg_dump.sql"),
     		C.CString("true"),
-    );
-    time.Sleep(time.Duration(1)*time.Second)
-    C.psql_restore_database(
+    		);
+    		return nil
+    }
+    if err() == nil {
+        func() {
+            C.psql_restore_database(
         	C.CString("localhost"),
         	C.CString("5432"),
         	C.CString("postgres"),
         	C.CString("postgres"),
         	C.CString("pg_dump.sql"),
         	C.CString("true"),
-    );
+            );
+        }()
+    }
 }

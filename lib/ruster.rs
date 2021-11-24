@@ -58,7 +58,7 @@ pub extern "C" fn mysqldump_all_databases(
             .wait_with_output()
             .expect("failed to wait display on child");
 
-        println!("status: {}", output.status);
+        println!("mysqldump_all_databases(): {}", output.status);
         assert!(output.status.success());
     } else {
         let child = Command::new("mysqldump")
@@ -84,7 +84,7 @@ pub extern "C" fn mysqldump_all_databases(
             .wait_with_output()
             .expect("failed to wait display on child");
 
-        println!("status: {}", output.status);
+        println!("mysqldump_all_databases(): {}", output.status);
         assert!(output.status.success());
     }
 }
@@ -143,7 +143,7 @@ pub extern "C" fn mysqldump_database(
             .wait_with_output()
             .expect("failed to wait display on child");
 
-        println!("status: {}", output.status);
+        println!("mysqldump_database(): {}", output.status);
         assert!(output.status.success());
     } else {
         let child = Command::new("mysqldump")
@@ -170,7 +170,7 @@ pub extern "C" fn mysqldump_database(
             .wait_with_output()
             .expect("failed to wait display on child");
 
-        println!("status: {}", output.status);
+        println!("mysqldump_database(): {}", output.status);
         assert!(output.status.success());
     }
 }
@@ -226,7 +226,7 @@ pub extern "C" fn mysql_restore_database(
             .wait_with_output()
             .expect("failed to wait display on child");
 
-        println!("status: {}", output.status);
+        println!("mysql_restore_database(): {}", output.status);
         //assert!(output.status.success());
     } else {
         let child = Command::new("mysql")
@@ -250,7 +250,7 @@ pub extern "C" fn mysql_restore_database(
             .wait_with_output()
             .expect("failed to wait display on child");
 
-        println!("status: {}", output.status);
+        println!("mysql_restore_database(): {}", output.status);
         //assert!(output.status.success());
     }
 }
@@ -301,7 +301,7 @@ pub extern "C" fn mysql_restore_all_databases(
             .wait_with_output()
             .expect("failed to wait display on child");
 
-        println!("status: {}", output.status);
+        println!("mysql_restore_all_databases(): {}", output.status);
         assert!(output.status.success());
     } else {
         let child = Command::new("mysql")
@@ -323,7 +323,7 @@ pub extern "C" fn mysql_restore_all_databases(
             .wait_with_output()
             .expect("failed to wait display on child");
 
-        println!("status: {}", output.status);
+        println!("mysql_restore_all_databases(): {}", output.status);
         assert!(output.status.success());
     }
 }
@@ -383,7 +383,7 @@ pub extern "C" fn pg_dump_database(
             .wait_with_output()
             .expect("failed to wait display on child");
 
-        println!("status: {}", output.status);
+        println!("pg_dump_database(): {}", output.status);
         assert!(output.status.success());
     } else {
         let child = Command::new("pg_dump")
@@ -411,7 +411,7 @@ pub extern "C" fn pg_dump_database(
             .wait_with_output()
             .expect("failed to wait display on child");
 
-        println!("status: {}", output.status);
+        println!("pg_dump_database(): {}", output.status);
         assert!(output.status.success());
     }
 }
@@ -470,7 +470,7 @@ pub extern "C" fn pg_dump_all_databases(
             .wait_with_output()
             .expect("failed to wait display on child");
 
-        println!("status: {}", output.status);
+        println!("pg_dump_all_databases(): {}", output.status);
         assert!(output.status.success());
     } else {
         let child = Command::new("pg_dumpall")
@@ -498,7 +498,7 @@ pub extern "C" fn pg_dump_all_databases(
             .wait_with_output()
             .expect("failed to wait display on child");
 
-        println!("status: {}", output.status);
+        println!("pg_dump_all_databases(): {}", output.status);
         assert!(output.status.success());
     }
 }
@@ -553,7 +553,7 @@ pub extern "C" fn psql_restore_database(
             .wait_with_output()
             .expect("failed to wait display on child");
 
-        println!("status: {}", output.status);
+        println!("psql_restore_database(): {}", output.status);
         assert!(output.status.success());
     } else {
         let child = Command::new("psql")
@@ -577,7 +577,7 @@ pub extern "C" fn psql_restore_database(
             .wait_with_output()
             .expect("failed to wait display on child");
 
-        println!("status: {}", output.status);
+        println!("psql_restore_database(): {}", output.status);
         assert!(output.status.success());
     }
 }
@@ -586,7 +586,7 @@ pub extern "C" fn psql_restore_database(
 /// ```no_run
 /// // Golang
 /// os.Getenv("PGPASSWORD");
-/// C.psql_restore_all_databasess(
+/// C.psql_restore_all_databases(
 /// 	C.CString("localhost"),
 /// 	C.CString("5432"),
 /// 	C.CString("postgres"),
@@ -627,7 +627,7 @@ pub extern "C" fn psql_restore_all_databases(
             .wait_with_output()
             .expect("failed to wait display on child");
 
-        println!("status: {}", output.status);
+        println!("psql_restore_all_databases(): {}", output.status);
         assert!(output.status.success());
     } else {
         let child = Command::new("psql")
@@ -649,7 +649,7 @@ pub extern "C" fn psql_restore_all_databases(
             .wait_with_output()
             .expect("failed to wait display on child");
 
-        println!("status: {}", output.status);
+        println!("psql_restore_all_databases(): {}", output.status);
         assert!(output.status.success());
     }
 }
