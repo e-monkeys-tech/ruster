@@ -5,10 +5,21 @@ use std::task;
 use std::thread;
 use std::time;
 //use std::io::{self, Write};
-use log;
-use env_logger;
+extern crate libc;
 use std::process::Command;
 
+/// Example
+/// ```no_run
+/// // Golang
+/// os.Getenv("MYSQL_ROOT_PASSWORD");
+/// C.mysqldump_all_databases(
+/// 	C.CString("localhost"),
+/// 	C.CString("3306"),
+/// 	C.CString("root"),
+/// 	C.CString("dump.sql"),
+/// 	C.CString("true"),
+/// );
+/// ```
 #[no_mangle]
 pub extern "C" fn mysqldump_all_databases(
     host: *const libc::c_char,
@@ -78,6 +89,19 @@ pub extern "C" fn mysqldump_all_databases(
     }
 }
 
+/// Example
+/// ```no_run
+/// // Golang
+/// os.Getenv("MYSQL_ROOT_PASSWORD");
+/// C.mysqldump_database(
+/// 	C.CString("localhost"),
+/// 	C.CString("3306"),
+/// 	C.CString("root"),
+/// 	C.CString("mysql"),
+/// 	C.CString("dump.sql"),
+/// 	C.CString("true"),
+/// );
+/// ```
 #[no_mangle]
 pub extern "C" fn mysqldump_database(
     host: *const libc::c_char,
@@ -151,6 +175,19 @@ pub extern "C" fn mysqldump_database(
     }
 }
 
+/// Example
+/// ```no_run
+/// // Golang
+/// os.Getenv("MYSQL_ROOT_PASSWORD");
+/// C.mysql_restore_database(
+/// 	C.CString("localhost"),
+/// 	C.CString("3306"),
+/// 	C.CString("root"),
+/// 	C.CString("mysql"),
+/// 	C.CString("dump.sql"),
+/// 	C.CString("true"),
+/// );
+/// ```
 #[no_mangle]
 pub extern "C" fn mysql_restore_database(
     host: *const libc::c_char,
@@ -218,6 +255,18 @@ pub extern "C" fn mysql_restore_database(
     }
 }
 
+/// Example
+/// ```no_run
+/// // Golang
+/// os.Getenv("MYSQL_ROOT_PASSWORD");
+/// C.mysql_restore_all_databases(
+/// 	C.CString("localhost"),
+/// 	C.CString("3306"),
+/// 	C.CString("root"),
+/// 	C.CString("dump.sql"),
+/// 	C.CString("true"),
+/// );
+/// ```
 #[no_mangle]
 pub extern "C" fn mysql_restore_all_databases(
     host: *const libc::c_char,
@@ -279,6 +328,19 @@ pub extern "C" fn mysql_restore_all_databases(
     }
 }
 
+/// Example
+/// ```no_run
+/// // Golang
+/// os.Getenv("PGPASSWORD");
+/// C.pg_dump_database(
+/// 	C.CString("localhost"),
+/// 	C.CString("5432"),
+/// 	C.CString("postgres"),
+/// 	C.CString("postgres"),
+/// 	C.CString("dump.sql"),
+/// 	C.CString("true"),
+/// );
+/// ```
 #[no_mangle]
 pub extern "C" fn pg_dump_database(
     host: *const libc::c_char,
@@ -354,6 +416,18 @@ pub extern "C" fn pg_dump_database(
     }
 }
 
+/// Example
+/// ```no_run
+/// // Golang
+/// os.Getenv("PGPASSWORD");
+/// C.pg_dump_all_databases(
+/// 	C.CString("localhost"),
+/// 	C.CString("5432"),
+/// 	C.CString("postgres"),
+/// 	C.CString("dump.sql"),
+/// 	C.CString("true"),
+/// );
+/// ```
 #[no_mangle]
 pub extern "C" fn pg_dump_all_databases(
     host: *const libc::c_char,
@@ -429,6 +503,19 @@ pub extern "C" fn pg_dump_all_databases(
     }
 }
 
+/// Example
+/// ```no_run
+/// // Golang
+/// os.Getenv("PGPASSWORD");
+/// C.psql_restore_database(
+/// 	C.CString("localhost"),
+/// 	C.CString("5432"),
+/// 	C.CString("postgres"),
+/// 	C.CString("postgres"),
+/// 	C.CString("dump.sql"),
+/// 	C.CString("true"),
+/// );
+/// ```
 #[no_mangle]
 pub extern "C" fn psql_restore_database(
     host: *const libc::c_char,
@@ -495,6 +582,18 @@ pub extern "C" fn psql_restore_database(
     }
 }
 
+/// Example
+/// ```no_run
+/// // Golang
+/// os.Getenv("PGPASSWORD");
+/// C.psql_restore_all_databasess(
+/// 	C.CString("localhost"),
+/// 	C.CString("5432"),
+/// 	C.CString("postgres"),
+/// 	C.CString("dump.sql"),
+/// 	C.CString("true"),
+/// );
+/// ```
 #[no_mangle]
 pub extern "C" fn psql_restore_all_databases(
     host: *const libc::c_char,
@@ -562,31 +661,6 @@ struct Runner {
 }
 
 #[no_mangle]
-pub extern "C" fn set_log_level_trace() {
-    log::trace!("init_stuff() trace level message");
-}
-
-#[no_mangle]
-pub extern "C" fn set_log_level_error() {
-    log::error!("init_stuff() trace level message");
-}
-
-#[no_mangle]
-pub extern "C" fn set_log_level_warn() {
-    log::warn!("init_stuff() trace level message");
-}
-
-#[no_mangle]
-pub extern "C" fn set_log_level_debug() {
-    log::debug!("init_stuff() trace level message");
-}
-
-#[no_mangle]
-pub extern "C" fn set_log_level_info() {
-    log::info!("init_stuff() trace level message");
-}
-
-#[no_mangle]
 pub extern "C" fn run() {
     let counter = Arc::new(Mutex::new(0));
     let mut handles = vec![];
@@ -616,11 +690,6 @@ pub mod test {
     // This is meant to do the same stuff as the main function in the .go files.
     #[test]
     fn simulated_main_function() {
-        env_logger::init();
-        set_log_level_trace();
-        set_log_level_debug();
-        set_log_level_info();
-        set_log_level_warn();
-        set_log_level_error();
+        run()
     }
 }
