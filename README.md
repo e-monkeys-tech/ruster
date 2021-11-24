@@ -3,7 +3,7 @@
 
 ![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Continuous integration](https://github.com/actions-rs/cargo/workflows/Continuous%20integration/badge.svg)
-[![Rust Reference](https://img.shields.io/badge/docs.rs-rustdoc-green)](https://docs.rs/ruster/1.2.6/ruster/)
+[![Rust Reference](https://img.shields.io/badge/docs.rs-rustdoc-green)](https://docs.rs/ruster/1.2.7/ruster/)
 
 Ruster is a library using **ffi** for database management with **psql/pg_dump + mysql/mysqldump** written in Rust.
 
@@ -59,7 +59,11 @@ func main() {
       C.CString("postgres"),               
       C.CString("postgres"),               
       C.CString("pg_dump.sql"),            
-      C.CString("true"),                  
+      C.CString("true"),
+      );
+    }()
+  }
+}          
 ```
 
 ### MySQL - Mariadb
@@ -86,6 +90,7 @@ func main() {
       C.CString("dump.sql"),                                
       C.CString("true"),                                    
     );
+      return nil 
   }                                                      
   time.Sleep(time.Duration(250)*time.Millisecond)         
   if err() == nil {                         
