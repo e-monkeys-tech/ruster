@@ -3,11 +3,11 @@
 
 ![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Continuous integration](https://github.com/actions-rs/cargo/workflows/Continuous%20integration/badge.svg)
-<!-- [![CodeQL](https://github.com/e-monkeys-tech/dbutils_shlib_rs/workflows/CodeQL/badge.svg)](https://github.com/e-monkeys-tech/dbutils_shlib_rs/actions?query=workflow%3Arust) -->
+[![Rust Reference](https://img.shields.io/badge/docs.rs-rustdoc-green)](https://docs.rs/ruster/1.1.1/ruster/)
 
-ruster is a library using **ffi** for database management with **psql/pg_dump + mysql/mysqldump** written in Rust.
+Ruster is a library using **ffi** for database management with **psql/pg_dump + mysql/mysqldump** written in Rust.
 
-The generated C static and shared libraries can be reused in other languages (Golang from example).
+The generated C static and shared libraries can be reused in other languages (Golang for example).
 
 ## Build ruster
 
