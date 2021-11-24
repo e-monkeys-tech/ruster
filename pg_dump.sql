@@ -5,7 +5,7 @@
 -- Dumped from database version 13.4 (Ubuntu 13.4-1)
 -- Dumped by pg_dump version 13.4 (Ubuntu 13.4-1)
 
--- Started on 2021-11-24 17:30:39 CET
+-- Started on 2021-11-24 17:48:23 CET
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -18,7 +18,7 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
--- Completed on 2021-11-24 17:30:39 CET
+-- Completed on 2021-11-24 17:48:23 CET
 
 --
 -- PostgreSQL database dump complete
