@@ -593,16 +593,106 @@
 <span id="593">593</span>
 <span id="594">594</span>
 <span id="595">595</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::ffi::CStr</span>;
-<span class="kw">use</span> <span class="ident">std::sync</span>::{<span class="ident">Arc</span>, <span class="ident">Mutex</span>};
+<span id="596">596</span>
+<span id="597">597</span>
+<span id="598">598</span>
+<span id="599">599</span>
+<span id="600">600</span>
+<span id="601">601</span>
+<span id="602">602</span>
+<span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
+<span id="606">606</span>
+<span id="607">607</span>
+<span id="608">608</span>
+<span id="609">609</span>
+<span id="610">610</span>
+<span id="611">611</span>
+<span id="612">612</span>
+<span id="613">613</span>
+<span id="614">614</span>
+<span id="615">615</span>
+<span id="616">616</span>
+<span id="617">617</span>
+<span id="618">618</span>
+<span id="619">619</span>
+<span id="620">620</span>
+<span id="621">621</span>
+<span id="622">622</span>
+<span id="623">623</span>
+<span id="624">624</span>
+<span id="625">625</span>
+<span id="626">626</span>
+<span id="627">627</span>
+<span id="628">628</span>
+<span id="629">629</span>
+<span id="630">630</span>
+<span id="631">631</span>
+<span id="632">632</span>
+<span id="633">633</span>
+<span id="634">634</span>
+<span id="635">635</span>
+<span id="636">636</span>
+<span id="637">637</span>
+<span id="638">638</span>
+<span id="639">639</span>
+<span id="640">640</span>
+<span id="641">641</span>
+<span id="642">642</span>
+<span id="643">643</span>
+<span id="644">644</span>
+<span id="645">645</span>
+<span id="646">646</span>
+<span id="647">647</span>
+<span id="648">648</span>
+<span id="649">649</span>
+<span id="650">650</span>
+<span id="651">651</span>
+<span id="652">652</span>
+<span id="653">653</span>
+<span id="654">654</span>
+<span id="655">655</span>
+<span id="656">656</span>
+<span id="657">657</span>
+<span id="658">658</span>
+<span id="659">659</span>
+<span id="660">660</span>
+<span id="661">661</span>
+<span id="662">662</span>
+<span id="663">663</span>
+<span id="664">664</span>
+<span id="665">665</span>
+<span id="666">666</span>
+<span id="667">667</span>
+<span id="668">668</span>
+<span id="669">669</span>
+<span id="670">670</span>
+<span id="671">671</span>
+<span id="672">672</span>
+<span id="673">673</span>
+</pre><pre class="rust"><code><span class="comment">//use std::sync::{Arc, Mutex};</span>
 <span class="comment">//use std::error::Error as StdError;</span>
-<span class="kw">use</span> <span class="ident">std::task</span>;
-<span class="kw">use</span> <span class="ident">std::thread</span>;
-<span class="kw">use</span> <span class="ident">std::time</span>;
+<span class="comment">//use std::task;</span>
+<span class="comment">//use std::thread;</span>
+<span class="comment">//use std::time;</span>
 <span class="comment">//use std::io::{self, Write};</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">libc</span>;
+<span class="kw">use</span> <span class="ident">std::ffi::CStr</span>;
 <span class="kw">use</span> <span class="ident">std::process::Command</span>;
 
+<span class="doccomment">/// Example</span>
+<span class="doccomment">/// ```no_run</span>
+<span class="doccomment">/// // Golang</span>
+<span class="doccomment">/// os.Getenv(&quot;MYSQL_ROOT_PASSWORD&quot;);</span>
+<span class="doccomment">/// C.mysqldump_all_databases(</span>
+<span class="doccomment">/// 	C.CString(&quot;localhost&quot;),</span>
+<span class="doccomment">/// 	C.CString(&quot;3306&quot;),</span>
+<span class="doccomment">/// 	C.CString(&quot;root&quot;),</span>
+<span class="doccomment">/// 	C.CString(&quot;dump.sql&quot;),</span>
+<span class="doccomment">/// 	C.CString(&quot;true&quot;),</span>
+<span class="doccomment">/// );</span>
+<span class="doccomment">/// ```</span>
 <span class="attribute">#[<span class="ident">no_mangle</span>]</span>
 <span class="kw">pub</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">mysqldump_all_databases</span>(
     <span class="ident">host</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">libc::c_char</span>,
@@ -641,7 +731,7 @@
             .<span class="ident">wait_with_output</span>()
             .<span class="ident">expect</span>(<span class="string">&quot;failed to wait display on child&quot;</span>);
 
-        <span class="macro">println!</span>(<span class="string">&quot;status: {}&quot;</span>, <span class="ident">output</span>.<span class="ident">status</span>);
+        <span class="macro">println!</span>(<span class="string">&quot;mysqldump_all_databases(): {}&quot;</span>, <span class="ident">output</span>.<span class="ident">status</span>);
         <span class="macro">assert!</span>(<span class="ident">output</span>.<span class="ident">status</span>.<span class="ident">success</span>());
     } <span class="kw">else</span> {
         <span class="kw">let</span> <span class="ident">child</span> <span class="op">=</span> <span class="ident">Command::new</span>(<span class="string">&quot;mysqldump&quot;</span>)
@@ -667,11 +757,24 @@
             .<span class="ident">wait_with_output</span>()
             .<span class="ident">expect</span>(<span class="string">&quot;failed to wait display on child&quot;</span>);
 
-        <span class="macro">println!</span>(<span class="string">&quot;status: {}&quot;</span>, <span class="ident">output</span>.<span class="ident">status</span>);
+        <span class="macro">println!</span>(<span class="string">&quot;mysqldump_all_databases(): {}&quot;</span>, <span class="ident">output</span>.<span class="ident">status</span>);
         <span class="macro">assert!</span>(<span class="ident">output</span>.<span class="ident">status</span>.<span class="ident">success</span>());
     }
 }
 
+<span class="doccomment">/// Example</span>
+<span class="doccomment">/// ```no_run</span>
+<span class="doccomment">/// // Golang</span>
+<span class="doccomment">/// os.Getenv(&quot;MYSQL_ROOT_PASSWORD&quot;);</span>
+<span class="doccomment">/// C.mysqldump_database(</span>
+<span class="doccomment">/// 	C.CString(&quot;localhost&quot;),</span>
+<span class="doccomment">/// 	C.CString(&quot;3306&quot;),</span>
+<span class="doccomment">/// 	C.CString(&quot;root&quot;),</span>
+<span class="doccomment">/// 	C.CString(&quot;mysql&quot;),</span>
+<span class="doccomment">/// 	C.CString(&quot;dump.sql&quot;),</span>
+<span class="doccomment">/// 	C.CString(&quot;true&quot;),</span>
+<span class="doccomment">/// );</span>
+<span class="doccomment">/// ```</span>
 <span class="attribute">#[<span class="ident">no_mangle</span>]</span>
 <span class="kw">pub</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">mysqldump_database</span>(
     <span class="ident">host</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">libc::c_char</span>,
@@ -713,7 +816,7 @@
             .<span class="ident">wait_with_output</span>()
             .<span class="ident">expect</span>(<span class="string">&quot;failed to wait display on child&quot;</span>);
 
-        <span class="macro">println!</span>(<span class="string">&quot;status: {}&quot;</span>, <span class="ident">output</span>.<span class="ident">status</span>);
+        <span class="macro">println!</span>(<span class="string">&quot;mysqldump_database(): {}&quot;</span>, <span class="ident">output</span>.<span class="ident">status</span>);
         <span class="macro">assert!</span>(<span class="ident">output</span>.<span class="ident">status</span>.<span class="ident">success</span>());
     } <span class="kw">else</span> {
         <span class="kw">let</span> <span class="ident">child</span> <span class="op">=</span> <span class="ident">Command::new</span>(<span class="string">&quot;mysqldump&quot;</span>)
@@ -740,11 +843,24 @@
             .<span class="ident">wait_with_output</span>()
             .<span class="ident">expect</span>(<span class="string">&quot;failed to wait display on child&quot;</span>);
 
-        <span class="macro">println!</span>(<span class="string">&quot;status: {}&quot;</span>, <span class="ident">output</span>.<span class="ident">status</span>);
+        <span class="macro">println!</span>(<span class="string">&quot;mysqldump_database(): {}&quot;</span>, <span class="ident">output</span>.<span class="ident">status</span>);
         <span class="macro">assert!</span>(<span class="ident">output</span>.<span class="ident">status</span>.<span class="ident">success</span>());
     }
 }
 
+<span class="doccomment">/// Example</span>
+<span class="doccomment">/// ```no_run</span>
+<span class="doccomment">/// // Golang</span>
+<span class="doccomment">/// os.Getenv(&quot;MYSQL_ROOT_PASSWORD&quot;);</span>
+<span class="doccomment">/// C.mysql_restore_database(</span>
+<span class="doccomment">/// 	C.CString(&quot;localhost&quot;),</span>
+<span class="doccomment">/// 	C.CString(&quot;3306&quot;),</span>
+<span class="doccomment">/// 	C.CString(&quot;root&quot;),</span>
+<span class="doccomment">/// 	C.CString(&quot;mysql&quot;),</span>
+<span class="doccomment">/// 	C.CString(&quot;dump.sql&quot;),</span>
+<span class="doccomment">/// 	C.CString(&quot;true&quot;),</span>
+<span class="doccomment">/// );</span>
+<span class="doccomment">/// ```</span>
 <span class="attribute">#[<span class="ident">no_mangle</span>]</span>
 <span class="kw">pub</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">mysql_restore_database</span>(
     <span class="ident">host</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">libc::c_char</span>,
@@ -783,7 +899,7 @@
             .<span class="ident">wait_with_output</span>()
             .<span class="ident">expect</span>(<span class="string">&quot;failed to wait display on child&quot;</span>);
 
-        <span class="macro">println!</span>(<span class="string">&quot;status: {}&quot;</span>, <span class="ident">output</span>.<span class="ident">status</span>);
+        <span class="macro">println!</span>(<span class="string">&quot;mysql_restore_database(): {}&quot;</span>, <span class="ident">output</span>.<span class="ident">status</span>);
         <span class="comment">//assert!(output.status.success());</span>
     } <span class="kw">else</span> {
         <span class="kw">let</span> <span class="ident">child</span> <span class="op">=</span> <span class="ident">Command::new</span>(<span class="string">&quot;mysql&quot;</span>)
@@ -807,11 +923,23 @@
             .<span class="ident">wait_with_output</span>()
             .<span class="ident">expect</span>(<span class="string">&quot;failed to wait display on child&quot;</span>);
 
-        <span class="macro">println!</span>(<span class="string">&quot;status: {}&quot;</span>, <span class="ident">output</span>.<span class="ident">status</span>);
+        <span class="macro">println!</span>(<span class="string">&quot;mysql_restore_database(): {}&quot;</span>, <span class="ident">output</span>.<span class="ident">status</span>);
         <span class="comment">//assert!(output.status.success());</span>
     }
 }
 
+<span class="doccomment">/// Example</span>
+<span class="doccomment">/// ```no_run</span>
+<span class="doccomment">/// // Golang</span>
+<span class="doccomment">/// os.Getenv(&quot;MYSQL_ROOT_PASSWORD&quot;);</span>
+<span class="doccomment">/// C.mysql_restore_all_databases(</span>
+<span class="doccomment">/// 	C.CString(&quot;localhost&quot;),</span>
+<span class="doccomment">/// 	C.CString(&quot;3306&quot;),</span>
+<span class="doccomment">/// 	C.CString(&quot;root&quot;),</span>
+<span class="doccomment">/// 	C.CString(&quot;dump.sql&quot;),</span>
+<span class="doccomment">/// 	C.CString(&quot;true&quot;),</span>
+<span class="doccomment">/// );</span>
+<span class="doccomment">/// ```</span>
 <span class="attribute">#[<span class="ident">no_mangle</span>]</span>
 <span class="kw">pub</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">mysql_restore_all_databases</span>(
     <span class="ident">host</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">libc::c_char</span>,
@@ -846,7 +974,7 @@
             .<span class="ident">wait_with_output</span>()
             .<span class="ident">expect</span>(<span class="string">&quot;failed to wait display on child&quot;</span>);
 
-        <span class="macro">println!</span>(<span class="string">&quot;status: {}&quot;</span>, <span class="ident">output</span>.<span class="ident">status</span>);
+        <span class="macro">println!</span>(<span class="string">&quot;mysql_restore_all_databases(): {}&quot;</span>, <span class="ident">output</span>.<span class="ident">status</span>);
         <span class="macro">assert!</span>(<span class="ident">output</span>.<span class="ident">status</span>.<span class="ident">success</span>());
     } <span class="kw">else</span> {
         <span class="kw">let</span> <span class="ident">child</span> <span class="op">=</span> <span class="ident">Command::new</span>(<span class="string">&quot;mysql&quot;</span>)
@@ -868,11 +996,24 @@
             .<span class="ident">wait_with_output</span>()
             .<span class="ident">expect</span>(<span class="string">&quot;failed to wait display on child&quot;</span>);
 
-        <span class="macro">println!</span>(<span class="string">&quot;status: {}&quot;</span>, <span class="ident">output</span>.<span class="ident">status</span>);
+        <span class="macro">println!</span>(<span class="string">&quot;mysql_restore_all_databases(): {}&quot;</span>, <span class="ident">output</span>.<span class="ident">status</span>);
         <span class="macro">assert!</span>(<span class="ident">output</span>.<span class="ident">status</span>.<span class="ident">success</span>());
     }
 }
 
+<span class="doccomment">/// Example</span>
+<span class="doccomment">/// ```no_run</span>
+<span class="doccomment">/// // Golang</span>
+<span class="doccomment">/// os.Getenv(&quot;PGPASSWORD&quot;);</span>
+<span class="doccomment">/// C.pg_dump_database(</span>
+<span class="doccomment">/// 	C.CString(&quot;localhost&quot;),</span>
+<span class="doccomment">/// 	C.CString(&quot;5432&quot;),</span>
+<span class="doccomment">/// 	C.CString(&quot;postgres&quot;),</span>
+<span class="doccomment">/// 	C.CString(&quot;postgres&quot;),</span>
+<span class="doccomment">/// 	C.CString(&quot;dump.sql&quot;),</span>
+<span class="doccomment">/// 	C.CString(&quot;true&quot;),</span>
+<span class="doccomment">/// );</span>
+<span class="doccomment">/// ```</span>
 <span class="attribute">#[<span class="ident">no_mangle</span>]</span>
 <span class="kw">pub</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">pg_dump_database</span>(
     <span class="ident">host</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">libc::c_char</span>,
@@ -915,7 +1056,7 @@
             .<span class="ident">wait_with_output</span>()
             .<span class="ident">expect</span>(<span class="string">&quot;failed to wait display on child&quot;</span>);
 
-        <span class="macro">println!</span>(<span class="string">&quot;status: {}&quot;</span>, <span class="ident">output</span>.<span class="ident">status</span>);
+        <span class="macro">println!</span>(<span class="string">&quot;pg_dump_database(): {}&quot;</span>, <span class="ident">output</span>.<span class="ident">status</span>);
         <span class="macro">assert!</span>(<span class="ident">output</span>.<span class="ident">status</span>.<span class="ident">success</span>());
     } <span class="kw">else</span> {
         <span class="kw">let</span> <span class="ident">child</span> <span class="op">=</span> <span class="ident">Command::new</span>(<span class="string">&quot;pg_dump&quot;</span>)
@@ -943,11 +1084,23 @@
             .<span class="ident">wait_with_output</span>()
             .<span class="ident">expect</span>(<span class="string">&quot;failed to wait display on child&quot;</span>);
 
-        <span class="macro">println!</span>(<span class="string">&quot;status: {}&quot;</span>, <span class="ident">output</span>.<span class="ident">status</span>);
+        <span class="macro">println!</span>(<span class="string">&quot;pg_dump_database(): {}&quot;</span>, <span class="ident">output</span>.<span class="ident">status</span>);
         <span class="macro">assert!</span>(<span class="ident">output</span>.<span class="ident">status</span>.<span class="ident">success</span>());
     }
 }
 
+<span class="doccomment">/// Example</span>
+<span class="doccomment">/// ```no_run</span>
+<span class="doccomment">/// // Golang</span>
+<span class="doccomment">/// os.Getenv(&quot;PGPASSWORD&quot;);</span>
+<span class="doccomment">/// C.pg_dump_all_databases(</span>
+<span class="doccomment">/// 	C.CString(&quot;localhost&quot;),</span>
+<span class="doccomment">/// 	C.CString(&quot;5432&quot;),</span>
+<span class="doccomment">/// 	C.CString(&quot;postgres&quot;),</span>
+<span class="doccomment">/// 	C.CString(&quot;dump.sql&quot;),</span>
+<span class="doccomment">/// 	C.CString(&quot;true&quot;),</span>
+<span class="doccomment">/// );</span>
+<span class="doccomment">/// ```</span>
 <span class="attribute">#[<span class="ident">no_mangle</span>]</span>
 <span class="kw">pub</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">pg_dump_all_databases</span>(
     <span class="ident">host</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">libc::c_char</span>,
@@ -990,7 +1143,7 @@
             .<span class="ident">wait_with_output</span>()
             .<span class="ident">expect</span>(<span class="string">&quot;failed to wait display on child&quot;</span>);
 
-        <span class="macro">println!</span>(<span class="string">&quot;status: {}&quot;</span>, <span class="ident">output</span>.<span class="ident">status</span>);
+        <span class="macro">println!</span>(<span class="string">&quot;pg_dump_all_databases(): {}&quot;</span>, <span class="ident">output</span>.<span class="ident">status</span>);
         <span class="macro">assert!</span>(<span class="ident">output</span>.<span class="ident">status</span>.<span class="ident">success</span>());
     } <span class="kw">else</span> {
         <span class="kw">let</span> <span class="ident">child</span> <span class="op">=</span> <span class="ident">Command::new</span>(<span class="string">&quot;pg_dumpall&quot;</span>)
@@ -1018,11 +1171,24 @@
             .<span class="ident">wait_with_output</span>()
             .<span class="ident">expect</span>(<span class="string">&quot;failed to wait display on child&quot;</span>);
 
-        <span class="macro">println!</span>(<span class="string">&quot;status: {}&quot;</span>, <span class="ident">output</span>.<span class="ident">status</span>);
+        <span class="macro">println!</span>(<span class="string">&quot;pg_dump_all_databases(): {}&quot;</span>, <span class="ident">output</span>.<span class="ident">status</span>);
         <span class="macro">assert!</span>(<span class="ident">output</span>.<span class="ident">status</span>.<span class="ident">success</span>());
     }
 }
 
+<span class="doccomment">/// Example</span>
+<span class="doccomment">/// ```no_run</span>
+<span class="doccomment">/// // Golang</span>
+<span class="doccomment">/// os.Getenv(&quot;PGPASSWORD&quot;);</span>
+<span class="doccomment">/// C.psql_restore_database(</span>
+<span class="doccomment">/// 	C.CString(&quot;localhost&quot;),</span>
+<span class="doccomment">/// 	C.CString(&quot;5432&quot;),</span>
+<span class="doccomment">/// 	C.CString(&quot;postgres&quot;),</span>
+<span class="doccomment">/// 	C.CString(&quot;postgres&quot;),</span>
+<span class="doccomment">/// 	C.CString(&quot;dump.sql&quot;),</span>
+<span class="doccomment">/// 	C.CString(&quot;true&quot;),</span>
+<span class="doccomment">/// );</span>
+<span class="doccomment">/// ```</span>
 <span class="attribute">#[<span class="ident">no_mangle</span>]</span>
 <span class="kw">pub</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">psql_restore_database</span>(
     <span class="ident">host</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">libc::c_char</span>,
@@ -1060,7 +1226,7 @@
             .<span class="ident">wait_with_output</span>()
             .<span class="ident">expect</span>(<span class="string">&quot;failed to wait display on child&quot;</span>);
 
-        <span class="macro">println!</span>(<span class="string">&quot;status: {}&quot;</span>, <span class="ident">output</span>.<span class="ident">status</span>);
+        <span class="macro">println!</span>(<span class="string">&quot;psql_restore_database(): {}&quot;</span>, <span class="ident">output</span>.<span class="ident">status</span>);
         <span class="macro">assert!</span>(<span class="ident">output</span>.<span class="ident">status</span>.<span class="ident">success</span>());
     } <span class="kw">else</span> {
         <span class="kw">let</span> <span class="ident">child</span> <span class="op">=</span> <span class="ident">Command::new</span>(<span class="string">&quot;psql&quot;</span>)
@@ -1084,11 +1250,23 @@
             .<span class="ident">wait_with_output</span>()
             .<span class="ident">expect</span>(<span class="string">&quot;failed to wait display on child&quot;</span>);
 
-        <span class="macro">println!</span>(<span class="string">&quot;status: {}&quot;</span>, <span class="ident">output</span>.<span class="ident">status</span>);
+        <span class="macro">println!</span>(<span class="string">&quot;psql_restore_database(): {}&quot;</span>, <span class="ident">output</span>.<span class="ident">status</span>);
         <span class="macro">assert!</span>(<span class="ident">output</span>.<span class="ident">status</span>.<span class="ident">success</span>());
     }
 }
 
+<span class="doccomment">/// Example</span>
+<span class="doccomment">/// ```no_run</span>
+<span class="doccomment">/// // Golang</span>
+<span class="doccomment">/// os.Getenv(&quot;PGPASSWORD&quot;);</span>
+<span class="doccomment">/// C.psql_restore_all_databases(</span>
+<span class="doccomment">/// 	C.CString(&quot;localhost&quot;),</span>
+<span class="doccomment">/// 	C.CString(&quot;5432&quot;),</span>
+<span class="doccomment">/// 	C.CString(&quot;postgres&quot;),</span>
+<span class="doccomment">/// 	C.CString(&quot;dump.sql&quot;),</span>
+<span class="doccomment">/// 	C.CString(&quot;true&quot;),</span>
+<span class="doccomment">/// );</span>
+<span class="doccomment">/// ```</span>
 <span class="attribute">#[<span class="ident">no_mangle</span>]</span>
 <span class="kw">pub</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">psql_restore_all_databases</span>(
     <span class="ident">host</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">libc::c_char</span>,
@@ -1122,7 +1300,7 @@
             .<span class="ident">wait_with_output</span>()
             .<span class="ident">expect</span>(<span class="string">&quot;failed to wait display on child&quot;</span>);
 
-        <span class="macro">println!</span>(<span class="string">&quot;status: {}&quot;</span>, <span class="ident">output</span>.<span class="ident">status</span>);
+        <span class="macro">println!</span>(<span class="string">&quot;psql_restore_all_databases(): {}&quot;</span>, <span class="ident">output</span>.<span class="ident">status</span>);
         <span class="macro">assert!</span>(<span class="ident">output</span>.<span class="ident">status</span>.<span class="ident">success</span>());
     } <span class="kw">else</span> {
         <span class="kw">let</span> <span class="ident">child</span> <span class="op">=</span> <span class="ident">Command::new</span>(<span class="string">&quot;psql&quot;</span>)
@@ -1144,50 +1322,28 @@
             .<span class="ident">wait_with_output</span>()
             .<span class="ident">expect</span>(<span class="string">&quot;failed to wait display on child&quot;</span>);
 
-        <span class="macro">println!</span>(<span class="string">&quot;status: {}&quot;</span>, <span class="ident">output</span>.<span class="ident">status</span>);
+        <span class="macro">println!</span>(<span class="string">&quot;psql_restore_all_databases(): {}&quot;</span>, <span class="ident">output</span>.<span class="ident">status</span>);
         <span class="macro">assert!</span>(<span class="ident">output</span>.<span class="ident">status</span>.<span class="ident">success</span>());
     }
 }
 
-<span class="kw">struct</span> <span class="ident">Runner</span> {
-    <span class="ident">waker</span>: <span class="ident">task::Waker</span>,
-    <span class="ident">timeout</span>: <span class="ident">time::Duration</span>,
-    <span class="ident">max_workers</span>: <span class="ident">u64</span>,
-}
+<span class="comment">// struct Runner {</span>
+<span class="comment">//     waker: task::Waker,</span>
+<span class="comment">//     timeout: time::Duration,</span>
+<span class="comment">//     max_workers: u64,</span>
+<span class="comment">// }</span>
 
-<span class="attribute">#[<span class="ident">no_mangle</span>]</span>
-<span class="kw">pub</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">run</span>() {
-    <span class="kw">let</span> <span class="ident">counter</span> <span class="op">=</span> <span class="ident">Arc::new</span>(<span class="ident">Mutex::new</span>(<span class="number">0</span>));
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">handles</span> <span class="op">=</span> <span class="macro">vec!</span>[];
-
-    <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">10</span> {
-        <span class="kw">let</span> <span class="ident">counter</span> <span class="op">=</span> <span class="ident">Arc::clone</span>(<span class="kw-2">&amp;</span><span class="ident">counter</span>);
-        <span class="kw">let</span> <span class="ident">handle</span> <span class="op">=</span> <span class="ident">thread::spawn</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">num</span> <span class="op">=</span> <span class="ident">counter</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>();
-
-            <span class="kw-2">*</span><span class="ident">num</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
-        });
-        <span class="ident">handles</span>.<span class="ident">push</span>(<span class="ident">handle</span>);
-    }
-
-    <span class="kw">for</span> <span class="ident">handle</span> <span class="kw">in</span> <span class="ident">handles</span> {
-        <span class="ident">handle</span>.<span class="ident">join</span>().<span class="ident">unwrap</span>();
-    }
-
-    <span class="macro">println!</span>(<span class="string">&quot;Result: {}&quot;</span>, <span class="kw-2">*</span><span class="ident">counter</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>());
-}
-
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">test</span> {
-
-    <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
-
-    <span class="comment">// This is meant to do the same stuff as the main function in the .go files.</span>
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">simulated_main_function</span>() {
-        <span class="ident">run</span>()
-    }
-}
+<span class="comment">// #[cfg(test)]</span>
+<span class="comment">// pub mod test {</span>
+<span class="comment">//</span>
+<span class="comment">//     use super::*;</span>
+<span class="comment">//</span>
+<span class="comment">//     // This is meant to do the same stuff as the main function in the .go files.</span>
+<span class="comment">//     #[test]</span>
+<span class="comment">//     fn simulated_main_function() {</span>
+<span class="comment">//</span>
+<span class="comment">//     }</span>
+<span class="comment">// }</span>
 </code></pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="ruster" data-search-index-js="../../search-index.js" data-search-js="../../search.js"></div>
     <script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script>
