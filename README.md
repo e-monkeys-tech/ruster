@@ -3,7 +3,7 @@
 
 ![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Continuous integration](https://github.com/actions-rs/cargo/workflows/Continuous%20integration/badge.svg)
-[![Rust Reference](https://img.shields.io/badge/docs.rs-rustdoc-green)](https://docs.rs/ruster/1.2.2/ruster/)
+[![Rust Reference](https://img.shields.io/badge/docs.rs-rustdoc-green)](https://docs.rs/ruster/1.2.3/ruster/)
 
 Ruster is a library using **ffi** for database management with **psql/pg_dump + mysql/mysqldump** written in Rust.
 

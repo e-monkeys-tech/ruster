@@ -1,11 +1,11 @@
 [package]
 name = "libruster"
-version = "1.2.2"
+version = "1.2.3"
 edition = "2021"
 description = "Ruster is a library using ffi for database management with psql/pg_dump + mysql/mysqldump that can be used in other languages like Golang"
 license = "MIT"
 repository = "https://github.com/e-monkeys-tech/ruster"
-documentation = "https://docs.rs/ruster/1.1.1/ruster/"
+documentation = "https://docs.rs/ruster/1.2.3/ruster/"
 
 [lib]
 name = "libruster"         # The name of the target.
