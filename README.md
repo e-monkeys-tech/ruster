@@ -3,7 +3,7 @@
 
 ![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Continuous integration](https://github.com/actions-rs/cargo/workflows/Continuous%20integration/badge.svg)
-[![Rust Reference](https://img.shields.io/badge/docs.rs-rustdoc-green)](https://docs.rs/ruster/1.1.1/ruster/)
+[![Rust Reference](https://img.shields.io/badge/docs.rs-rustdoc-green)](https://docs.rs/ruster/1.2.2/ruster/)
 
 Ruster is a library using **ffi** for database management with **psql/pg_dump + mysql/mysqldump** written in Rust.
 
@@ -25,6 +25,8 @@ make build-static
 
 ## Using ruster
 
+### PostgreSQL  
+
 ```go
 /*                                             
 #cgo LDFLAGS: -L./lib -lruster                 
@@ -32,31 +34,72 @@ make build-static
 */                                             
 import "C"                                     
 
-func main() {                                   
-    os.Getenv("PGPASSWORD")                   
-    err := func() error {                     
-            C.pg_dump_database(               
-    		C.CString("localhost"),           
-    		C.CString("5432"),                
-    		C.CString("postgres"),            
-    		C.CString("postgres"),            
-    		C.CString("pg_dump.sql"),         
-    		C.CString("true"),                
-    		);                                
-    		return nil                        
-    }                                         
-    if err() == nil {                         
-        func() {                              
-            C.psql_restore_database(          
-        	C.CString("localhost"),           
-        	C.CString("5432"),                
-        	C.CString("postgres"),            
-        	C.CString("postgres"),            
-        	C.CString("pg_dump.sql"),         
-        	C.CString("true"),                
-            );                                
-        }()                                   
-    }                                         
+import (                                     
+     "os"                                  
+)                                          
+                                           
+func main() {                              
+  os.Getenv("PGPASSWORD")                  
+  err := func() error {                    
+    C.pg_dump_database(                    
+    C.CString("localhost"),                
+    C.CString("5432"),                     
+    C.CString("postgres"),                 
+    C.CString("postgres"),                 
+    C.CString("pg_dump.sql"),              
+    C.CString("true"),                     
+    );                                     
+     return nil                            
+   }                                       
+   if err() == nil {                       
+    func() {                               
+      C.psql_restore_database(             
+      C.CString("localhost"),              
+      C.CString("5432"),                   
+      C.CString("postgres"),               
+      C.CString("postgres"),               
+      C.CString("pg_dump.sql"),            
+      C.CString("true"),                  
+```
+
+### Mysql - Mariadb
+
+```go
+/*                                             
+#cgo LDFLAGS: -L./lib -lruster                 
+#include "./lib/ruster.h"                      
+*/                                             
+import "C"
+
+import (                                                          
+     "os"                    
+)                            
+
+func main() {   
+  os.Getenv("MYSQL_PWD")
+  err := func() error {                               
+    C.mysqldump_database(                                   
+      C.CString("localhost"),                               
+      C.CString("3306"),                                    
+      C.CString("root"),                                    
+      C.CString("mysql"),                                   
+      C.CString("dump.sql"),                                
+      C.CString("true"),                                    
+    );
+  }                                                      
+  time.Sleep(time.Duration(250)*time.Millisecond)         
+  if err() == nil {                         
+    func() {
+      C.mysql_restore_database(                               
+        C.CString("localhost"),                               
+        C.CString("3306"),                                    
+        C.CString("root"),                                    
+        C.CString("mysql"),                                   
+        C.CString("dump.sql"),                                
+        C.CString("true"),                                    
+      );
+    }()
+  }
 }
 ```
 
