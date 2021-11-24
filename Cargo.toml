@@ -1,12 +1,12 @@
 [package]
-name = "ruster"
+name = "libruster"
 version = "1.0.0"
 edition = "2021"
 description = "Shared C library implementing simple and powerful logging interface"
 license = "MIT"
 
 [lib]
-name = "ruster"         # The name of the target.
+name = "libruster"         # The name of the target.
 path = "lib/ruster.rs"  # The source file of the target.
 test = true             # Is tested by default.
 doctest = true          # Documentation examples are tested by default.
