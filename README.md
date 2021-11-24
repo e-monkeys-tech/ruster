@@ -1,9 +1,9 @@
 # ruster
 
-[![docs](https://img.shields.io/docsrs/libruster/1.0.0)](https://docs.rs/libruster/1.0.0/libruster/)
-[![Rust Reference](https://img.shields.io/badge/docs.rs-rustdoc-green)](https://docs.rs/ruster/1.2.7/ruster/)
+[![docs](https://img.shields.io/docsrs/libruster/1.2.8)](https://docs.rs/libruster/1.2.8/libruster/)
+[![Rust Reference](https://img.shields.io/badge/docs.rs-rustdoc-green)](https://docs.rs/ruster/1.2.8/ruster/)
 [![Coverage Status](https://codecov.io/github.com/e-monkeys-tech/ruster/branch/master/graph/badge.svg)]()
-[![crates.io](https://img.shields.io/badge/crates.io-v1.2.7-orange)](https://crates.io/crates/libruster/)
+[![crates.io](https://img.shields.io/badge/crates.io-v1.2.8-orange)](https://crates.io/crates/libruster/)
 ![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Continuous integration](https://github.com/actions-rs/cargo/workflows/Continuous%20integration/badge.svg)
 
