@@ -1,7 +1,6 @@
 [package]
 name = "libruster"
-author = "pierre.baconnier@outlook.fr"
-version = "1.1.1"
+version = "1.2.2"
 edition = "2021"
 description = "Ruster is a library using ffi for database management with psql/pg_dump + mysql/mysqldump that can be used in other languages like Golang"
 license = "MIT"

@@ -1,11 +1,11 @@
-use std::ffi::CStr;
-use std::sync::{Arc, Mutex};
+//use std::sync::{Arc, Mutex};
 //use std::error::Error as StdError;
-use std::task;
-use std::thread;
-use std::time;
+//use std::task;
+//use std::thread;
+//use std::time;
 //use std::io::{self, Write};
 extern crate libc;
+use std::ffi::CStr;
 use std::process::Command;
 
 /// Example
@@ -654,42 +654,20 @@ pub extern "C" fn psql_restore_all_databases(
     }
 }
 
-struct Runner {
-    waker: task::Waker,
-    timeout: time::Duration,
-    max_workers: u64,
-}
+// struct Runner {
+//     waker: task::Waker,
+//     timeout: time::Duration,
+//     max_workers: u64,
+// }
 
-#[no_mangle]
-pub extern "C" fn run() {
-    let counter = Arc::new(Mutex::new(0));
-    let mut handles = vec![];
-
-    for _ in 0..10 {
-        let counter = Arc::clone(&counter);
-        let handle = thread::spawn(move || {
-            let mut num = counter.lock().unwrap();
-
-            *num += 1;
-        });
-        handles.push(handle);
-    }
-
-    for handle in handles {
-        handle.join().unwrap();
-    }
-
-    println!("Result: {}", *counter.lock().unwrap());
-}
-
-#[cfg(test)]
-pub mod test {
-
-    use super::*;
-
-    // This is meant to do the same stuff as the main function in the .go files.
-    #[test]
-    fn simulated_main_function() {
-        run()
-    }
-}
+// #[cfg(test)]
+// pub mod test {
+//
+//     use super::*;
+//
+//     // This is meant to do the same stuff as the main function in the .go files.
+//     #[test]
+//     fn simulated_main_function() {
+//
+//     }
+// }
