@@ -1,8 +1,3 @@
-void set_log_level_trace();
-void set_log_level_debug();
-void set_log_level_info();
-void set_log_level_warn();
-void set_log_level_error();
 void run();
 void mysqldump_database(char *host, char *port, char *user, char *database, char *filename_pattern, char *verbose);
 void pg_dump_database(char *host, char *port, char *user, char *database, char *filename_pattern, char *verbose);
