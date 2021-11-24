@@ -62,7 +62,7 @@ func main() {
       C.CString("true"),                  
 ```
 
-### Mysql - Mariadb
+### MySQL - Mariadb
 
 ```go
 /*                                             
