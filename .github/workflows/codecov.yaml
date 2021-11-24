@@ -1,0 +1,22 @@
+name: Codecov
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: codecov/codecov-action@v2
+      - name: Codecov
+        with:
+          token: "af89c6e9-8ef4-433b-a333-706ae89d8148"
+          fail_ci_if_error: false
+          name: codecov-umbrella
+          path_to_write_report: ./codecov_report.txt
+          verbose: true
