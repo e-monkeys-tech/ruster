@@ -4,8 +4,8 @@
 [![Rust Reference](https://img.shields.io/badge/docs.rs-rustdoc-green)](https://docs.rs/libruster/1.2.10/libruster/)
 [![Coverage Status](https://codecov.io/github.com/e-monkeys-tech/ruster/branch/master/graph/badge.svg)]()
 [![crates.io](https://img.shields.io/badge/crates.io-v1.2.10-orange)](https://crates.io/crates/libruster/)
-![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)
-![Continuous integration](https://github.com/actions-rs/cargo/workflows/Continuous%20integration/badge.svg)
+[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)]()
+[![Continuous integration](https://github.com/actions-rs/cargo/workflows/Continuous%20integration/badge.svg)]()
 <!-- https://app.travis-ci.com/github/e-monkeys-tech/ruster -->
 
 Ruster is a library using **ffi** for database management with **psql/pg_dump + mysql/mysqldump** written in Rust.

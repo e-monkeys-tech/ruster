@@ -654,12 +654,6 @@ pub extern "C" fn psql_restore_all_databases(
     }
 }
 
-// struct Runner {
-//     waker: task::Waker,
-//     timeout: time::Duration,
-//     max_workers: u64,
-// }
-
 // #[cfg(test)]
 // pub mod test {
 //
